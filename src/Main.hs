@@ -48,10 +48,10 @@ withStdin f = hGetLine stdin >>= f >> withStdin f
 
 broadcast :: Show a => TVar [Connection] -> a -> IO ()
 broadcast state s = do
+  -- TODO - This currently includes closed connections:
   connections <- atomically . readTVar $ state
   mapM bc connections
   -- DEBUG - Display the amount of connected clients:
-  -- TODO - This currently includes closed connections
   -- putStrLn . show . length $ connections
   return ()
   where
